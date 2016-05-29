@@ -246,10 +246,12 @@ class ImgFigure extends React.Component {
         <img src={this.props.data.imageURL} alt={this.props.data.title} />
         <figcaption>
           <h2 className="img-title">{this.props.data.title}</h2>
-          <div className="img-back" onClick={this.handleClick.bind(this)}>
+          <div className="img-back">
             <p>
               {this.props.data.desc}
             </p>
+            <iframe src={"http://music.163.com/outchain/player?type=2&id=" + this.props.data.id + "&auto=0&height=32"}>
+            </iframe>
           </div>
         </figcaption>
       </figure>
