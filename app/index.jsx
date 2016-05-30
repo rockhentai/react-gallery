@@ -73,7 +73,7 @@ class GalleryByReactApp extends React.Component {
 
         imgsArrangeTopArr = [],
         //取一个或者不取
-        topImgNum = Math.ceil(Math.random()*2),
+        topImgNum = Math.floor(Math.random()*2),
         topImgSpliceIndex = 0,
         imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex,1);//从imgsArrangeArr中删除centerIndex位置的项目并返回
 
@@ -187,10 +187,13 @@ class GalleryByReactApp extends React.Component {
           isCenter:false
         }
       }
-      imgFigures.push(<ImgFigure data={value} ref={'imgFigure' + index}
+      imgFigures.push(<ImgFigure key={index} data={value} ref={'imgFigure' + index}
       arrange={this.state.imgsArrangeArr[index]}
       inverse={this.inverse(index)}
-      center={this.center(index)} />)
+      center={this.center(index)} />);
+
+      controllerUnits.push(<ControllerUnit key={index} arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)} />);
+
     }.bind(this));
 
     return (
@@ -229,8 +232,8 @@ class ImgFigure extends React.Component {
     }
 
     if(this.props.arrange.rotate) {
-      (['-moz-','-ms-','-webkit-','']).forEach(function(value) {
-        styleObj[value + 'transform'] = 'rotate(' + this.props.arrange.rotate + 'deg)';
+      (['MozTransform','msTransform','WebkitTransform','transform']).forEach(function(value) {
+        styleObj[value] = 'rotate(' + this.props.arrange.rotate + 'deg)';
       }.bind(this));
     }
 
@@ -255,6 +258,40 @@ class ImgFigure extends React.Component {
           </div>
         </figcaption>
       </figure>
+    )
+  }
+}
+
+//控制组件
+class ControllerUnit extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  handleClick(e) {
+    if(this.props.arrange.isCenter) {
+      this.props.inverse();
+    } else {
+      this.props.center();
+    }
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
+  render() {
+    var controllerUnitClassName = "controller-unit";
+
+    if(this.props.arrange.isCenter) {
+      controllerUnitClassName += " is-center";
+
+      if(this.props.arrange.isInverse) {
+        controllerUnitClassName += " is-inverse";
+      }
+    }
+
+    return (
+      <span className={controllerUnitClassName} onClick={this.handleClick.bind(this)}>
+      </span>
     )
   }
 }
