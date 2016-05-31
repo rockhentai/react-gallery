@@ -253,7 +253,7 @@ class ImgFigure extends React.Component {
             <p>
               {this.props.data.desc}
             </p>
-            <iframe src={"http://music.163.com/outchain/player?type=2&id=" + this.props.data.id + "&auto=0&height=32"}>
+            <iframe src={"http://music.163.com/outchain/player?type=2&id=" + this.props.data.id + "&auto=0&height=66"}>
             </iframe>
           </div>
         </figcaption>
